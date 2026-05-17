@@ -24,7 +24,9 @@ jobs:
 
       # 3. Tesztek futtatása a Maven Wrapper-rel
       - name: Build and Test with Maven
-        run: ./mvnw clean verify
+        run: |
+        chmod +x mvnw
+        ./mvnw clean verify
 
       # 4. A JaCoCo kódlefedettségi jelentés mentése
       - name: Upload JaCoCo Report as Artifact
