@@ -11,10 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Kód letöltése a GitHubról a virtuális gépre
       - uses: actions/checkout@v4
 
-      # 2. A Java 17 környezet felépítése a felhőben
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -22,13 +20,11 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      # 3. Tesztek futtatása a Maven Wrapper-rel
       - name: Build and Test with Maven
         run: |
-        chmod +x mvnw
-        ./mvnw clean verify
+          chmod +x mvnw
+          ./mvnw clean verify
 
-      # 4. A JaCoCo kódlefedettségi jelentés mentése
       - name: Upload JaCoCo Report as Artifact
         uses: actions/upload-artifact@v4
         with:
