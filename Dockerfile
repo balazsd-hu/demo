@@ -5,7 +5,7 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 # 3. Átmásoljuk az előbb legyártott JAR fájlt a konténer belsejébe, app.jar néven
-COPY target/demo-0.0.1-SNAPSHOT.jar app.jar
+COPY target/*.jar app.jar
 
 # 4. Megmondjuk a Dockernek, hogy indításkor futtassa el a Java programunkat
 ENTRYPOINT ["java", "-jar", "app.jar"]
