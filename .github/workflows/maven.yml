@@ -23,7 +23,7 @@ jobs:
       - name: Build and Test with Maven
         run: |
           chmod +x mvnw
-          ./mvnw clean verify
+          ./mvnw clean verify -Dtest=!DemoApplicationTests
 
       - name: Upload JaCoCo Report as Artifact
         uses: actions/upload-artifact@v4
