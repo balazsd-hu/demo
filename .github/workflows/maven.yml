@@ -1,4 +1,4 @@
-name: Java CI with Maven and Artifacts
+name: Java CI with Maven, Tailscale and SonarQube
 
 on:
   push:
@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Kód letöltése (fetch-depth: 0 kell a Sonar-nak a Git előzményekhez)
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      # 2. A Java 17 környezet felépítése
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
@@ -20,11 +24,25 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build and Test with Maven
+      # 3. Csatlakozás a privát Tailscale hálózathoz
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      # 4. Fordítás, Tesztelés és SonarQube elemzés beküldése a belső IP-re
+      - name: Build, Test and SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           chmod +x mvnw
-          ./mvnw clean verify -Dtest=!DemoApplicationTests
+          ./mvnw clean verify sonar:sonar \
+            -Dtest=!DemoApplicationTests \
+            -Dsonar.projectKey=demo-alkalmazas \
+            -Dsonar.host.url=http://192.168.50.223:9000 \
+            -Dsonar.token=${{ secrets.SONAR_TOKEN }}
 
+      # 5. Biztonsági mentés: A JaCoCo jelentés mentése zip-ként a GitHubra is
       - name: Upload JaCoCo Report as Artifact
         uses: actions/upload-artifact@v4
         with:
