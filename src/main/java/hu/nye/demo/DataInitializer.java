@@ -13,6 +13,8 @@ import java.util.List;
 @Component
 public class DataInitializer implements CommandLineRunner {
 
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataInitializer.class);
+
     private final FelhasznaloRepository felhasznaloRepository;
     private final MunkavallaloRepository munkavallaloRepository;
 
@@ -37,8 +39,7 @@ public class DataInitializer implements CommandLineRunner {
 
             felhasznaloRepository.save(admin);
             felhasznaloRepository.save(user);
-            System.out.println(">> Mintafelhasználók titkosított jelszóval sikeresen létrehozva!");
-        }
+            log.info(">> Mintafelhasználók titkosított jelszóval sikeresen létrehozva!");        }
 
         if (munkavallaloRepository.count() == 0) {
 
