@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="hu">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="hu">
 <head>
   <meta charset="UTF-8">
   <title>Szakember Kölcsönző</title>
@@ -11,9 +11,23 @@
 <body class="bg-light">
 
 <nav class="navbar navbar-dark bg-dark mb-4">
-  <div class="container">
+  <div class="container d-flex justify-content-between align-items-center">
     <a class="navbar-brand font-weight-bold" href="/">🛠️ Szakember Kölcsönző Rendszer</a>
-    <span class="navbar-text text-white">Üdvözöllek, <strong>Balázs</strong>!</span>
+
+    <div class="d-flex align-items-center">
+      <a sec:authorize="hasRole('ADMIN')" href="/admin" class="btn btn-warning btn-sm mr-3 font-weight-bold">
+        ⚙️ Admin felület
+      </a>
+      <span class="navbar-text text-white mr-3">
+        Üdvözöllek, <strong th:text="${aktualisNev}">Felhasználó</strong>!
+      </span>
+
+      <form action="/logout" method="post" class="m-0 d-inline">
+        <button type="submit" class="btn btn-danger btn-sm align-middle">
+          🚪 Kijelentkezés
+        </button>
+      </form>
+    </div>
   </div>
 </nav>
 

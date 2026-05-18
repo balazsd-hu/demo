@@ -6,6 +6,8 @@ import hu.nye.demo.service.FoglalasService; // ÚJ IMPORT
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -26,10 +28,9 @@ public class MunkavallaloController {
     }
 
     @GetMapping("/")
-    public String fooldal(Model model) {
+    public String fooldal(Model model, @AuthenticationPrincipal UserDetails loggedInUser) {
         model.addAttribute("munkasok", munkavallaloService.osszesMunkavallalo());
 
-        // IDŐZÍTŐ LOGIKA A FŐOLDALRA IS:
         Map<Long, Long> hatralevoIdok = new HashMap<>();
         List<Foglalas> foglalasok = foglalasService.osszesFoglalas();
         LocalDateTime most = LocalDateTime.now();
@@ -40,8 +41,13 @@ public class MunkavallaloController {
                 hatralevoIdok.put(f.getMunkavallalo().getId(), hatralevoPerc + 1);
             }
         }
-        // Átküldjük a főoldali HTML-nek is a perceket
         model.addAttribute("hatralevoIdok", hatralevoIdok);
+
+        if (loggedInUser != null) {
+            model.addAttribute("aktualisNev", loggedInUser.getUsername());
+        } else {
+            model.addAttribute("aktualisNev", "Vendég");
+        }
 
         return "index";
     }

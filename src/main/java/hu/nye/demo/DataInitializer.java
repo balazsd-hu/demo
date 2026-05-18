@@ -5,6 +5,7 @@ import hu.nye.demo.model.Munkavallalo;
 import hu.nye.demo.repository.FelhasznaloRepository;
 import hu.nye.demo.repository.MunkavallaloRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public class DataInitializer implements CommandLineRunner {
     private final FelhasznaloRepository felhasznaloRepository;
     private final MunkavallaloRepository munkavallaloRepository;
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public DataInitializer(FelhasznaloRepository felhasznaloRepository,
                            MunkavallaloRepository munkavallaloRepository) {
         this.felhasznaloRepository = felhasznaloRepository;
@@ -24,17 +27,19 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        // 1. Teszt felhasználók létrehozása (ha még nem léteznek)
         if (felhasznaloRepository.count() == 0) {
-            Felhasznalo admin = new Felhasznalo(null, "admin", "admin123", "ROLE_ADMIN");
-            Felhasznalo user = new Felhasznalo(null, "balazs", "pass123", "ROLE_USER");
+
+            String adminJelszoTitkosan = passwordEncoder.encode("admin123");
+            String balazsJelszoTitkosan = passwordEncoder.encode("pass123");
+
+            Felhasznalo admin = new Felhasznalo(null, "admin", adminJelszoTitkosan, "ROLE_ADMIN");
+            Felhasznalo user = new Felhasznalo(null, "balazs", balazsJelszoTitkosan, "ROLE_USER");
 
             felhasznaloRepository.save(admin);
             felhasznaloRepository.save(user);
-            System.out.println(">> Mintafelhasználók (admin, balazs) sikeresen létrehozva!");
+            System.out.println(">> Mintafelhasználók titkosított jelszóval sikeresen létrehozva!");
         }
 
-        // 2. Mintamunkavállalók létrehozása (ha még üres a lista)
         if (munkavallaloRepository.count() == 0) {
 
             Munkavallalo m1 = new Munkavallalo(null, "Kovács János", "IT", 8500,
