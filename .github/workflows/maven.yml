@@ -36,13 +36,13 @@ jobs:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       # 4. Fordítás, Tesztelés, JAR artifact legyártása és SonarQube scan
+      # emlékezetőül -Dtest=!DemoApplicationTests tesztelés kivétel
       - name: Build, Test and SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           chmod +x mvnw
           ./mvnw clean verify sonar:sonar \
-            -Dtest=!DemoApplicationTests \
             -Dsonar.projectKey=demo-alkalmazas \
             -Dsonar.host.url=http://192.168.50.223:9000 \
             -Dsonar.token=${{ secrets.SONAR_TOKEN }}
