@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class DataInitializer implements CommandLineRunner {
 
-    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataInitializer.class);
+    //private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataInitializer.class);
 
     private final FelhasznaloRepository felhasznaloRepository;
     private final MunkavallaloRepository munkavallaloRepository;
