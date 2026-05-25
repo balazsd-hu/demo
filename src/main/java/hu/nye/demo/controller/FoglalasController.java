@@ -4,22 +4,45 @@ import hu.nye.demo.service.FoglalasService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+// Feltételezve, hogy ezeken az útvonalakon vannak a felhasználó osztályaid, ellenőrizd az importot:
+import hu.nye.demo.model.Felhasznalo;
+import hu.nye.demo.repository.FelhasznaloRepository;
 
 @Controller
 public class FoglalasController {
 
     private final FoglalasService foglalasService;
+    private final FelhasznaloRepository felhasznaloRepository;
 
-    public FoglalasController(FoglalasService foglalasService) {
+
+    public FoglalasController(FoglalasService foglalasService, FelhasznaloRepository felhasznaloRepository) {
         this.foglalasService = foglalasService;
+        this.felhasznaloRepository = felhasznaloRepository;
     }
 
     @PostMapping("/lefoglal")
-    public String lefoglal(@RequestParam Long munkavallaloId) {
-        Long fixFelhasznaloId = 2L;
-
+    public String lefoglal(@RequestParam Long munkavallaloId,
+                           @AuthenticationPrincipal UserDetails userDetails) {
         try {
-            foglalasService.lefoglal(fixFelhasznaloId, munkavallaloId);
+
+            if (userDetails == null) {
+                return "redirect:/login";
+            }
+
+
+            String aktualisUsername = userDetails.getUsername();
+
+
+            Felhasznalo felhasznalo = felhasznaloRepository.findByUsername(aktualisUsername)
+                    .orElseThrow(() -> new RuntimeException("Felhasználó nem található: " + aktualisUsername));
+
+
+            foglalasService.lefoglal(felhasznalo.getId(), munkavallaloId);
+
         } catch (Exception e) {
             System.out.println("Hiba a foglalás során: " + e.getMessage());
         }

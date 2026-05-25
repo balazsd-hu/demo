@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ import java.util.Map;
 public class MunkavallaloController {
 
     private final MunkavallaloService munkavallaloService;
-    private final FoglalasService foglalasService; // ÚJ BEKÖTÉS
+    private final FoglalasService foglalasService;
 
     public MunkavallaloController(MunkavallaloService munkavallaloService, FoglalasService foglalasService) {
         this.munkavallaloService = munkavallaloService;
@@ -27,8 +28,19 @@ public class MunkavallaloController {
     }
 
     @GetMapping("/")
-    public String fooldal(Model model, @AuthenticationPrincipal UserDetails loggedInUser) {
-        model.addAttribute("munkasok", munkavallaloService.osszesMunkavallalo());
+    public String fooldal(@RequestParam(required = false) String kategoria, Model model, @AuthenticationPrincipal UserDetails loggedInUser) {
+
+        if (kategoria != null && !kategoria.isEmpty()) {
+            String dbKategoria = kategoria;
+            if (kategoria.equalsIgnoreCase("barkacs")) dbKategoria = "Barkács";
+            if (kategoria.equalsIgnoreCase("irodai")) dbKategoria = "Irodai melók";
+
+            model.addAttribute("munkasok", munkavallaloService.szuresKategoriaAlapjan(dbKategoria));
+            model.addAttribute("aktualisKategoria", dbKategoria);
+        } else {
+            model.addAttribute("munkasok", munkavallaloService.osszesMunkavallalo());
+            model.addAttribute("aktualisKategoria", "Mindegyik");
+        }
 
         Map<Long, Long> hatralevoIdok = new HashMap<>();
         List<Foglalas> foglalasok = foglalasService.osszesFoglalas();

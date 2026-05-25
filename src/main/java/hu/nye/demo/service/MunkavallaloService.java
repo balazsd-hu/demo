@@ -12,7 +12,7 @@ import java.util.List;
 public class MunkavallaloService {
 
     private final MunkavallaloRepository munkavallaloRepository;
-    private final FoglalasRepository foglalasRepository; // ÚJ BEKÖTÉS
+    private final FoglalasRepository foglalasRepository;
 
     public MunkavallaloService(MunkavallaloRepository munkavallaloRepository, FoglalasRepository foglalasRepository) {
         this.munkavallaloRepository = munkavallaloRepository;
@@ -28,18 +28,20 @@ public class MunkavallaloService {
                 .orElseThrow(() -> new IllegalArgumentException("Munkavállaló nem található: " + id));
     }
 
-    public Munkavallalo mentés(Munkavallalo m) {
+    public Munkavallalo mentes(Munkavallalo m) {
         return munkavallaloRepository.save(m);
     }
 
-    @Transactional // Kötelező, mert az adatbázisban több táblát is módosítunk egyszerre!
+    public List<Munkavallalo> szuresKategoriaAlapjan(String kategoria) {
+        return munkavallaloRepository.findByKategoria(kategoria);
+    }
+
+    @Transactional
     public void torles(Long id) {
-        System.out.println(">> BACKEND: Szakember törlése indítva (ID: " + id + ")");
 
         foglalasRepository.deleteByMunkavallaloId(id);
 
         munkavallaloRepository.deleteById(id);
 
-        System.out.println(">> BACKEND: Szakember és foglalásai sikeresen törölve.");
     }
 }

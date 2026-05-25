@@ -52,7 +52,7 @@ public class AdminController {
     public String elerhetoovaTesz(@PathVariable Long id) {
         Munkavallalo m = munkavallaloService.keresesIdAlapjan(id);
         m.setElerheto(true);
-        munkavallaloService.mentés(m);
+        munkavallaloService.mentes(m);
         return "redirect:/admin";
     }
 
@@ -60,7 +60,7 @@ public class AdminController {
     public String foglalttaTesz(@PathVariable Long id) {
         Munkavallalo m = munkavallaloService.keresesIdAlapjan(id);
         m.setElerheto(false);
-        munkavallaloService.mentés(m);
+        munkavallaloService.mentes(m);
         return "redirect:/admin";
     }
 
@@ -79,7 +79,7 @@ public class AdminController {
         );
 
         Munkavallalo uj = new Munkavallalo(null, nev, kategoria, oradij, kepUrl, true, tulajdonsagok);
-        munkavallaloService.mentés(uj);
+        munkavallaloService.mentes(uj);
 
         return "redirect:/admin";
     }
@@ -114,7 +114,7 @@ public class AdminController {
                         .toList()
         );
         m.setTulajdonsagok(frissTulajdonsagok);
-        munkavallaloService.mentés(m);
+        munkavallaloService.mentes(m);
 
         return "redirect:/admin";
     }
