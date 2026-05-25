@@ -39,6 +39,7 @@ public class DataInitializer implements CommandLineRunner {
 
             felhasznaloRepository.save(admin);
             felhasznaloRepository.save(user);
+        }
 
         if (munkavallaloRepository.count() == 0) {
 
