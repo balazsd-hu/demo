@@ -2,7 +2,7 @@ package hu.nye.demo.controller;
 
 import hu.nye.demo.model.Foglalas;
 import hu.nye.demo.service.MunkavallaloService;
-import hu.nye.demo.service.FoglalasService; // ÚJ IMPORT
+import hu.nye.demo.service.FoglalasService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,6 @@ public class MunkavallaloController {
     private final MunkavallaloService munkavallaloService;
     private final FoglalasService foglalasService; // ÚJ BEKÖTÉS
 
-    // A Spring ide is bepakolja mindkét service-t automatikusan
     public MunkavallaloController(MunkavallaloService munkavallaloService, FoglalasService foglalasService) {
         this.munkavallaloService = munkavallaloService;
         this.foglalasService = foglalasService;

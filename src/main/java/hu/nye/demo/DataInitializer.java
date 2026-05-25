@@ -39,7 +39,6 @@ public class DataInitializer implements CommandLineRunner {
 
             felhasznaloRepository.save(admin);
             felhasznaloRepository.save(user);
-            log.info(">> Mintafelhasználók titkosított jelszóval sikeresen létrehozva!");        }
 
         if (munkavallaloRepository.count() == 0) {
 
@@ -60,7 +59,6 @@ public class DataInitializer implements CommandLineRunner {
                     true, List.of("Asszisztens angol+", "Recepciós tapasztalat", "Német B2"));
 
             munkavallaloRepository.saveAll(List.of(m1, m2, m3, m4));
-            System.out.println(">> Katalógus feltöltve mintamunkásokkal!");
         }
     }
 }

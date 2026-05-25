@@ -47,15 +47,14 @@ public class FoglalasService {
         foglalas.setFelhasznalo(felhasznalo);
         foglalas.setMunkavallalo(munkavallalo);
 
-        // Idők beállítása
         foglalas.setFoglalasIdopontja(LocalDateTime.now());
-        // TESZTELÉSHEZ: 1 perc múlva lejár (Élesben: .plusHours(2) lesz)
+
         foglalas.setLejaratIdopontja(LocalDateTime.now().plusMinutes(30));
 
         return foglalasRepository.save(foglalas);
     }
 
-    // TAKARÍTÓ ROBOT: 10 másodpercenként átnézi a táblát a háttérben
+
     @Scheduled(fixedRate = 10000)
     @Transactional
     public void lejartFoglalasokTakaritasa() {
@@ -63,17 +62,14 @@ public class FoglalasService {
         LocalDateTime most = LocalDateTime.now();
 
         for (Foglalas f : osszesFoglalas) {
-            // Ha a lejárati idő régebbi mint a mostani idő, és a munkás még mindig foglaltként van elmentve
             if (f.getLejaratIdopontja() != null && f.getLejaratIdopontja().isBefore(most) && !f.getMunkavallalo().isElerheto()) {
 
                 System.out.println(">> AUTOMATIZÁCIÓ: " + f.getMunkavallalo().getNev() + " foglalása lejárt! Felszabadítás...");
 
-                // 1. Munkavállaló visszaállítása elérhetőre
                 Munkavallalo m = f.getMunkavallalo();
                 m.setElerheto(true);
                 munkavallaloRepository.save(m);
 
-                // 2. A lejárt foglalási papír törlése a raktárból
                 foglalasRepository.delete(f);
             }
         }

@@ -3,7 +3,7 @@ package hu.nye.demo.controller;
 import hu.nye.demo.model.Foglalas;
 import hu.nye.demo.model.Munkavallalo;
 import hu.nye.demo.service.MunkavallaloService;
-import hu.nye.demo.service.FoglalasService; // ÚJ IMPORT
+import hu.nye.demo.service.FoglalasService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +20,8 @@ import java.util.Map;
 public class AdminController {
 
     private final MunkavallaloService munkavallaloService;
-    private final FoglalasService foglalasService; // ÚJ BEKÖTÉS
+    private final FoglalasService foglalasService;
 
-    // A Spring magától bepakolja ide mind a két service-t
     public AdminController(MunkavallaloService munkavallaloService, FoglalasService foglalasService) {
         this.munkavallaloService = munkavallaloService;
         this.foglalasService = foglalasService;
@@ -32,7 +31,6 @@ public class AdminController {
     public String adminFőoldal(Model model) {
         model.addAttribute("munkasok", munkavallaloService.osszesMunkavallalo());
 
-        // ÚJ LOGIKA: Kiszámoljuk a hátralévő perceket az aktív foglalásokhoz
         Map<Long, Long> hatralevoIdok = new HashMap<>();
         List<Foglalas> foglalasok = foglalasService.osszesFoglalas();
         LocalDateTime most = LocalDateTime.now();
@@ -45,7 +43,6 @@ public class AdminController {
                 hatralevoIdok.put(f.getMunkavallalo().getId(), hatralevoPerc + 1);
             }
         }
-        // Bedobjuk a Map-et a Thymeleaf varázsdobozba
         model.addAttribute("hatralevoIdok", hatralevoIdok);
 
         return "admin";
