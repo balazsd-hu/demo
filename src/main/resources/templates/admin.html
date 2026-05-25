@@ -103,7 +103,7 @@
                                     </form>
                                         <a th:href="@{/admin/szerkeszt/{id}(id=${munkas.id})}" class="btn btn-outline-primary btn-sm">✏️ Szerkesztés</a>
 
-                                    <form th:action="@{/admin/toröl/{id}(id=${munkas.id})}" method="post">
+                                    <form th:action="@{/admin/torol/{id}(id=${munkas.id})}" method="post">
                                         <button type="submit" class="btn btn-outline-danger btn-sm"
                                                 th:data-has-booking="${hatralevoIdok != null and hatralevoIdok[munkas.id] != null}"
                                                 onclick="return confirm(this.getAttribute('data-has-booking') === 'true' ? '⚠️ FIGYELEM: Ennek a szakembernek jelenleg AKTÍV FOGLALÁSA van! Ha most letörlöd, a foglalási adatai is megsemmisülnek. Biztosan törlöd így is?' : 'Biztosan törlöd ezt a szakembert?')">

@@ -122,7 +122,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @PostMapping("/toröl/{id}")
+    @PostMapping("/torol/{id}")
     public String torles(@PathVariable Long id) {
         munkavallaloService.torles(id);
         return "redirect:/admin";
