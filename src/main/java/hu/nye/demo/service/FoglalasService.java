@@ -62,7 +62,8 @@ public class FoglalasService {
         LocalDateTime most = LocalDateTime.now();
 
         for (Foglalas f : osszesFoglalas) {
-            if (f.getLejaratIdopontja() != null && f.getLejaratIdopontja().isBefore(most) && !f.getMunkavallalo().isElerheto()) {
+            if (f.getFoglalasIdopontja() != null && f.getFoglalasIdopontja().plusMinutes(30).isBefore(most))  {
+
 
                 System.out.println(">> AUTOMATIZÁCIÓ: " + f.getMunkavallalo().getNev() + " foglalása lejárt! Felszabadítás...");
 
