@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="hu">
 <head>
   <meta charset="UTF-8">
-  <title>Szakember Kölcsönző</title>
+  <title>Munkaerő Kölcsönző</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     .worker-img { height: 150px; object-fit: cover; border-radius: 50%; width: 150px; }
@@ -12,7 +12,7 @@
 
 <nav class="navbar navbar-dark bg-dark mb-4">
   <div class="container d-flex justify-content-between align-items-center">
-    <a class="navbar-brand font-weight-bold" href="/">🛠️ Szakember Kölcsönző Rendszer</a>
+    <a class="navbar-brand font-weight-bold" href="/">🛠️ Munkaerő Kölcsönző Rendszer</a>
 
     <div class="d-flex align-items-center">
       <a sec:authorize="hasRole('ADMIN')" href="/admin" class="btn btn-warning btn-sm mr-3 font-weight-bold">
@@ -78,6 +78,11 @@
                 <span th:if="${hatralevoIdok != null and hatralevoIdok[munkas.id] != null}"
                       th:text="'(Még ' + ${hatralevoIdok[munkas.id]} + ' percig tartja a rendszer)'"
                       class="d-block font-weight-bold text-danger my-1" style="font-size: 11px;">
+                </span>
+
+                <span th:if="${foglaloNevek != null and foglaloNevek[munkas.id] != null}"
+                      th:text="'🔒 Foglaló: ' + ${foglaloNevek[munkas.id]}"
+                      class="d-block font-weight-bold text-dark my-1" style="font-size: 11px;">
                 </span>
 
                 Kérjük, hívja a <strong>+36 30 123 4567</strong> számot!<br>

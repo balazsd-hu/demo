@@ -37,9 +37,7 @@ public class AdminController {
 
         for (Foglalas f : foglalasok) {
             if (f.getLejaratIdopontja() != null && f.getLejaratIdopontja().isAfter(most)) {
-                // Kiszámoljuk a különbséget percekben
                 long hatralevoPerc = Duration.between(most, f.getLejaratIdopontja()).toMinutes();
-                // Eltároljuk a dolgozó ID-ja alapján a hátralévő időt (+1 perc korrekció a kerekítés miatt)
                 hatralevoIdok.put(f.getMunkavallalo().getId(), hatralevoPerc + 1);
             }
         }

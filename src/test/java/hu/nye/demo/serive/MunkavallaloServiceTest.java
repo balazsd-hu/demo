@@ -15,17 +15,17 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class) // Bekapcsoljuk a Mockito kaszkadőr-motort
+@ExtendWith(MockitoExtension.class)
 public class MunkavallaloServiceTest {
 
     @Mock
-    private MunkavallaloRepository munkavallaloRepository; // Kamu adatbázis réteg
+    private MunkavallaloRepository munkavallaloRepository;
 
     @Mock
-    private FoglalasRepository foglalasRepository; // Másik kamu réteg a törléshez
+    private FoglalasRepository foglalasRepository;
 
     @InjectMocks
-    private MunkavallaloService munkavallaloService; // A valódi Service, amibe a Spring helyett a Mockito pakolja be a kamu repókat
+    private MunkavallaloService munkavallaloService;
 
     @Test
     public void testOsszesMunkavallalo() {
@@ -39,9 +39,9 @@ public class MunkavallaloServiceTest {
         List<Munkavallalo> eredmény = munkavallaloService.osszesMunkavallalo();
 
 
-        assertNotNull(eredmény); // Az eredmény nem lehet null
-        assertEquals(2, eredmény.size()); // Pontosan 2 embernek kell benne lennie
-        assertEquals("Teszt Elek", eredmény.get(0).getNev()); // Az első neve stimmeljen
+        assertNotNull(eredmény);
+        assertEquals(2, eredmény.size());
+        assertEquals("Teszt Elek", eredmény.get(0).getNev());
     }
 
     @Test

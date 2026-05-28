@@ -8,7 +8,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-// Feltételezve, hogy ezeken az útvonalakon vannak a felhasználó osztályaid, ellenőrizd az importot:
 import hu.nye.demo.model.Felhasznalo;
 import hu.nye.demo.repository.FelhasznaloRepository;
 

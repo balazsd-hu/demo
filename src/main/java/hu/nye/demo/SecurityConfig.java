@@ -22,9 +22,9 @@ public class SecurityConfig {
                     .orElseThrow(() -> new UsernameNotFoundException("Nem található felhasználó: " + username));
 
             return org.springframework.security.core.userdetails.User
-                    .withUsername(felhasznalo.getUsername()) // Átadjuk a nevet
-                    .password(felhasznalo.getPassword())     // Átadjuk a titkosított jelszót
-                    .authorities(felhasznalo.getRole())      // Átadjuk a jogkört (ROLE_USER vagy ROLE_ADMIN)
+                    .withUsername(felhasznalo.getUsername())
+                    .password(felhasznalo.getPassword())
+                    .authorities(felhasznalo.getRole())
                     .build();
         };
     }
